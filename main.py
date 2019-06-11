@@ -6,22 +6,24 @@ s = curses.initscr()
 curses.curs_set(0)
 sh, sw = s.getmaxyx()
 w = curses.newwin(sh,sw,0,0)
-w.keypad(True)
+w.keypad(1)
 w.timeout(100)
 
+print(sh)
+
 #create snakes initial position
-snake_x = sw/4
-snake_y = sh/2
+snake_x = sw//4
+snake_y = sh//2
 
 #snake initial coordinate (length = 3)
 snake = [
     [snake_y, snake_x],
     [snake_y, snake_x-1],
-    [snake_y, snake_x-2],
+    [snake_y, snake_x-2]
 ]
 
 #initializing food
-food = [sh/2, sw/2]
+food = [sh//2, sw//2]
 w.addch(food[0], food[1], curses.ACS_PI)
 
 #initial movement towards right
@@ -55,7 +57,7 @@ while True:
     if snake[0]==food:
         food = None
         while food is None:
-            food = [random.randint(1, sh), random.randint(1, sw)]
+            food = [random.randint(1, sh-1), random.randint(1, sw-1)]
             if food in snake:
                 food = None
         w.addch(food[0], food[1], curses.ACS_PI)
@@ -63,4 +65,4 @@ while True:
         tail = snake.pop()
         w.addch(tail[0], tail[1], ' ')
 
-    w.addch(snake[0][0], snake[0][1], ACS_CKBOARD)
+    w.addch(snake[0][0], snake[0][1], '0')
